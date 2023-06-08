@@ -1,0 +1,30 @@
+# .github/workflows/example.yml
+
+name: Merge upstream branches
+on:
+  schedule:
+     # Every day at 3:18am
+    - cron:  '18 3 * * *'
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Merge upstream
+        run: |
+          git config --global user.name 'SAIR Bot'
+          git config --global user.email 'admin@sairlab.org'
+
+          # "git checkout master" is unnecessary, already here by default
+          git pull --unshallow  # this option is very important, you would get
+                                # complains about unrelated histories without it.
+                                # (but actions/checkout@v2 can also be instructed
+                                # to fetch all git depth right from the start)
+
+          git remote add upstream https://github.com/leggedrobotics/iPlanner.git
+          git fetch upstream
+
+          # Neither forget the -b opt,
+          # remember to change branch name such as "master" or "main"
+          git merge --no-edit upstream/main
+          git push origin main
