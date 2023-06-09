@@ -26,5 +26,5 @@ jobs:
 
           # Neither forget the -b opt,
           # remember to change branch name such as "master" or "main"
-          git merge --no-edit upstream/main
-          git push origin main
+          git merge --no-edit upstream/master
+          git push origin master
